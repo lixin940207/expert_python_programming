@@ -15,6 +15,8 @@ def evens_using_for_loop(count):
 
 def evens_using_list_comprehension(count):
     """ Calculate evens using list comprehension """
+    # list comprehension 不需要在每次循环的时候做判断，append也额外需要时间，上面的方法还需要维护一个计数器，所以这样快过上面的方法
+    # 所以在很多需要if或者函数调用的时候，用list comprehension 会比for loop高效很多
     return [i for i in range(count) if i % 2 == 0]
 
 
