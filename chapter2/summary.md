@@ -2,14 +2,13 @@ list：
     1. 优先用列式推导，相比于for loop
         - 因为list comprehension更快，代码整洁
         - 不用每次循环都做if 判断
+    2. list.append() 普通情况下是O(1)但是，最坏是O(n)
+        是因为CPython的数组是过度分配的数组作为内部存储，而不是链表，如果长度超过，那么以后再append，就是O(n)
 
 dict：
     2. 创建字典也可以用字典推导
-
     3. 可哈希的，意味着不可变的（也可比较的），也就是可以作为字典的key来用的
-
     4. 字典的获取，改变和删除操作都是O(1), 但是遍历和复制是O(n)，而且这个n是曾经出现的所有n，如果曾经有过很多值后来删了很多，建议使用新的
-
     5. 字典的key的顺序不是一定的，如果需要有序可以使用collections中的OrderedDict
 
 集合
@@ -42,3 +41,35 @@ yield
         当两个generator函数组合使用的时候，每次next()都处理一个元素调用两个结果然后返回，详见P42
 
 装饰器
+    包装已有的函数或类，使之补充功能
+    最简单的写自定义装饰器的方法是用一个函数，模版如下：
+    ```python
+    def my_decorator(function):
+        def wrapped(*args, **kwargs):
+            ...
+            result = function(*args, **kwargs)
+            ...
+            return result
+        return wrapped
+    ```
+    如果需要参数化装饰器的话，只需要在上面模版再包一层
+    ```python
+    def repeat(number=3):
+        def my_decorator(function):
+            def wrapped(*args, **kwargs):
+                ...
+                for _ in range(number):
+                    result = function(*args, **kwargs)
+                ...
+                return result
+            return wrapped
+    ```
+
+其他语法：
+1. for 后面接else，在for循环自然结束（而不是中途break）后执行
+    ```python
+    for i in range(10):
+        print(i)
+    else:
+        print("for loop finished")
+    ```
